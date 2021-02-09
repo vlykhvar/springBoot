@@ -19,8 +19,12 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         "dao"
 })
 public class AppConfing {
-    @Autowired
     private Environment environment;
+
+    @Autowired
+    public AppConfing(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public DataSource getDataSource() {
