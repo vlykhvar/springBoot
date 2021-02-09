@@ -12,8 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl implements UserDao {
 
+    private final SessionFactory sessionFactory;
+
     @Autowired
-    private SessionFactory sessionFactory;
+    public UserDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public void add(User user) {
@@ -40,9 +44,11 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> listUsers() {
-        return sessionFactory
-                .openSession()
-                .createQuery("from User", User.class)
-                .getResultList();
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("from User", User.class)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting list of users", e);
+        }
     }
 }
