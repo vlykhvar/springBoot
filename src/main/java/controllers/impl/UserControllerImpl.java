@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 import models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import service.UserMapper;
 import service.UserService;
 
-@Controller
+@RestController
+@RequestMapping("/user")
 public class UserControllerImpl implements UserController {
     private final UserService userService;
 
@@ -23,7 +24,6 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    @ResponseBody
     @GetMapping("/inject")
     public String inject() {
         userService.add(new User("Vova",
@@ -38,25 +38,17 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    @ResponseBody
-    @GetMapping("user/{id}")
-    public UserResponseDto get(@PathVariable("id") Long userId) {
-        return UserMapper.convert(userService.getById(userId));
+    @GetMapping("{id}")
+    public UserResponseDto get(@PathVariable Long id) {
+        return UserMapper.convert(userService.getById(id));
     }
 
     @Override
-    @ResponseBody
-    @GetMapping("/user/")
+    @GetMapping("/get")
     public List<UserResponseDto> getAll() {
         return userService.listUsers()
                 .stream()
                 .map(UserMapper::convert)
                 .collect(Collectors.toList());
-    }
-
-    @ResponseBody
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello";
     }
 }
