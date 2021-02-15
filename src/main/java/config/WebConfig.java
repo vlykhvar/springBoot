@@ -9,7 +9,7 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"controllers.impl"})
+@ComponentScan(basePackages = {"controllers"})
 public class WebConfig {
     @Bean
     public InternalResourceViewResolver resolver() {
