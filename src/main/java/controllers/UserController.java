@@ -42,7 +42,7 @@ public class UserController {
         return userMapper.mapToDto(userService.getById(id));
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<UserResponseDto> getAll() {
         return userService.listUsers()
                 .stream()
