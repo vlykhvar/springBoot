@@ -29,6 +29,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getById(Long id) {
         return userDao.get(id).orElseThrow(()
-                -> new RuntimeException("Can't fing user by id" + id));
+                -> new RuntimeException("Can't find user by id" + id));
     }
 }
